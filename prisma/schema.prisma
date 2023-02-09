@@ -1,0 +1,26 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// prisma relations https://www.prisma.io/docs/concepts/components/prisma-schema/relations
+
+model Game {
+  id        Int     @id @default(autoincrement())
+  title     String  @unique
+  Console   Console @relation(fields: [consoleId], references: [id])
+  consoleId Int
+}
+
+model Console {
+  id    Int    @id @default(autoincrement())
+  name  String @unique
+  games Game[]
+}
